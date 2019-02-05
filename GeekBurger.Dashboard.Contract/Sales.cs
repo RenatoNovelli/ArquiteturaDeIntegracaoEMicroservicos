@@ -1,4 +1,4 @@
-﻿namespace GeekBurger.Dashboard.Models
+﻿namespace GeekBurger.Dashboard.Contract
 {
     public class Sales
     {
