@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Model\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -14,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="C:\Users\logonrmlocal\Desktop\MicroServices\ArquiteturaDeIntegracaoEMicroservicos\GeekBurger.Dashboard.Contract\GeekBurger.Dashboard.Contract.csproj" />
+    <ProjectReference Include="..\GeekBurger.Dashboard.Contract\GeekBurger.Dashboard.Contract.csproj" />
   </ItemGroup>
 
 </Project>
