@@ -12,14 +12,14 @@ namespace GeekBurger.Dashboard.Controllers
         //test
         [HttpGet("sales")]
         public IActionResult GetSales()
-        {
-            var a = 1;
+        {            
             return Ok(_sales);
         }
 
         [HttpGet("sales")]
         public IActionResult GetSales(string per, int value)
         {
+            var = "agian";
             return Ok(_sales);
         }
 
