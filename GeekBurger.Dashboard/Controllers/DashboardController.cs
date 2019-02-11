@@ -20,12 +20,6 @@ namespace GeekBurger.Dashboard.Controllers
         }
 
         [HttpGet("sales")]
-        public IActionResult GetSales()
-        {
-            return Ok(_sales);
-        }
-
-        [HttpGet("sales")]
         public IActionResult GetSales(string per, int value)
         {
             return Ok(_sales);
