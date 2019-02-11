@@ -19,9 +19,11 @@ namespace GeekBurger.Dashboard.Controllers
             _usersRestrictions = new List<UserRestrictions> { userRestriction1, userRestriction2 };
         }
 
+        //test
         [HttpGet("sales")]
         public IActionResult GetSales(string per, int value)
         {
+            //var = "agian";
             return Ok(_sales);
         }
 
@@ -30,7 +32,5 @@ namespace GeekBurger.Dashboard.Controllers
         {
             return Ok(_usersRestrictions);
         }
-
     }
-
 }
