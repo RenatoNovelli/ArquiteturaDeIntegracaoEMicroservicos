@@ -9,9 +9,11 @@ namespace GeekBurger.Dashboard.Controllers
     {
         public readonly Sales _sales;
         
+        //test
         [HttpGet("sales")]
         public IActionResult GetSales()
         {
+            var a = 1;
             return Ok(_sales);
         }
 
@@ -26,7 +28,5 @@ namespace GeekBurger.Dashboard.Controllers
         {
             return Ok(_usersRestrictions);
         }
-
     }
-
 }
