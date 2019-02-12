@@ -22,8 +22,7 @@ namespace GeekBurger.Dashboard.Controllers
         //test
         [HttpGet("sales")]
         public IActionResult GetSales(string per, int value)
-        {
-            //var = "agian";
+        {            
             return Ok(_sales);
         }
 
