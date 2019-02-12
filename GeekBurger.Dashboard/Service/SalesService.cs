@@ -1,8 +1,5 @@
 ﻿using GeekBurger.Dashboard.Contract;
-using GeekBurger.Dashboard.Interfaces;
-using GeekBurger.Dashboard.Model;
-using System;
-using System.Collections.Generic;
+using GeekBurger.Dashboard.Interfaces.Service;
 
 namespace GeekBurger.Dashboard.Service
 {
