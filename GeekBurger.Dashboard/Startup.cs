@@ -22,6 +22,15 @@ namespace GeekBurger.Dashboard
             services.AddScoped<ISalesRepository, SalesRepository>();
             services.AddTransient<ISalesService, SalesService>();
 
+            services.AddCors(options =>
+                {
+                    options.AddPolicy("CorsPolicy",
+                        builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+                });
+
             mvcCoreBuilder
                 .AddFormatterMappings()
                 .AddJsonFormatters()
@@ -35,7 +44,9 @@ namespace GeekBurger.Dashboard
                         .AllowAnyHeader()
                         .AllowCredentials();
                     })
-                );
+                )
+                .AddJsonFormatters(); 
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

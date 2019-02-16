@@ -2,10 +2,13 @@
     ViewData["Title"] = "Home Page";
 }
 
-
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<div id="sales" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div id="usersWithLessOffer" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<button id="btnAtualizar">Atualizar</button>
 
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
@@ -31,79 +34,104 @@
     var pedidos = [];
     var valores = [];
 
-    json.forEach(function (e) {
-        lojas.push(e.StoreId);
-        pedidos.push(e.Total);
-        valores.push(e.Value);
+    //https://geekburguerdashboard.azurewebsites.net/api/dashboard/usersWithLessOffer
 
-    });
-
-    Highcharts.chart('container', {
-        chart: {
-            zoomType: 'xy'
-        },
-        title: {
-            text: 'Vendas por loja'
-        },
-        xAxis: [{
-            categories: lojas,
-            crosshair: true
-        }],
-        yAxis: [{ // Primary yAxis
-            labels: {
-                format: 'R$ {value}',
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
+    $(document).ready(function () {
+        console.log('evento ')
+        $.ajax({
+            url: 'https://geekburguerdashboard.azurewebsites.net/api/dashboard/sales',
+            method: 'GET',
+            accept: 'application/json',
+            success(response) {
+                response.forEach(function (e) {
+                    lojas.push(e.storedId);
+                    pedidos.push(e.total);
+                    valores.push(e.value);
+                });
+                salesChart();
+                console.log(lojas, pedidos, valores);
             },
-            title: {
-                text: 'Valor',
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
+            error(erro) {
+
             }
-        }, { // Secondary yAxis
+        });
+        
+    });
+   
+    function salesChart() {
+        Highcharts.chart('sales', {
+            chart: {
+                zoomType: 'xy'
+            },
             title: {
-                text: 'Pedidos',
-                style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
+                text: 'Vendas por loja'
             },
-            labels: {
-                format: '{value}',
-                style: {
-                    color: Highcharts.getOptions().colors[0]
+            xAxis: [{
+                categories: lojas,
+                crosshair: true
+            }],
+            yAxis: [{ // Primary yAxis
+                labels: {
+                    format: 'R$ {value}',
+                    style: {
+                        color: Highcharts.getOptions().colors[1]
+                    }
+                },
+                title: {
+                    text: 'Valor',
+                    style: {
+                        color: Highcharts.getOptions().colors[1]
+                    }
                 }
-            },
-            opposite: true
-        }],
-        tooltip: {
-            shared: true
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            x: 120,
-            verticalAlign: 'top',
-            y: 100,
-            floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || 'rgba(255,255,255,0.25)'
-        },
-        series: [{
-            name: 'Pedidos',
-            type: 'column',
-            yAxis: 1,
-            data: pedidos,
- 
-
-        }, {
-            name: 'Valor',
-            type: 'spline',
-            data: valores,
+            }, { // Secondary yAxis
+                title: {
+                    text: 'Pedidos',
+                    style: {
+                        color: Highcharts.getOptions().colors[0]
+                    }
+                },
+                labels: {
+                    format: '{value}',
+                    style: {
+                        color: Highcharts.getOptions().colors[0]
+                    }
+                },
+                opposite: true
+            }],
             tooltip: {
-                valuePrefix: 'R$ '
-            }
-        }]
-    });
+                shared: true
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                x: 120,
+                verticalAlign: 'top',
+                y: 100,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || 'rgba(255,255,255,0.25)'
+            },
+            series: [{
+                name: 'Pedidos',
+                type: 'column',
+                yAxis: 1,
+                data: pedidos,
+
+
+            }, {
+                name: 'Valor',
+                type: 'spline',
+                data: valores,
+                tooltip: {
+                    valuePrefix: 'R$ '
+                }
+            }]
+        });
+    }
+
+
+
+
+
+
 </script>
 
