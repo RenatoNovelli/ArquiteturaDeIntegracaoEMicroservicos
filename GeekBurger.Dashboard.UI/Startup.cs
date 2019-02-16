@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace GeekBurger.Dashboard.UI
 {
@@ -48,27 +51,27 @@ namespace GeekBurger.Dashboard.UI
 
 
             //Swagger
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1",
-                    new Info
-                    {
-                        Title = "Dashboard Charts",
-                        Version = "v1",
-                        Description = "Mostra os gráficos muito loucos",
-                        Contact = new Contact
-                        {
-                            Name = "Joãozinho ui ui",
-                            Url = "https://github.com/Thuragon"
-                        }
-                    });
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1",
+            //        new Info
+            //        {
+            //            Title = "Dashboard Charts",
+            //            Version = "v1",
+            //            Description = "Mostra os gráficos muito loucos",
+            //            Contact = new Contact
+            //            {
+            //                Name = "Joãozinho ui ui",
+            //                Url = "https://github.com/Thuragon"
+            //            }
+            //        });
 
-                string caminhoAplicacao = PlatformServices.Default.Application.ApplicationBasePath;
-                string nomeAplicacao = PlatformServices.Default.Application.ApplicationName;
-                string caminhoXmlDoc = Path.Combine(caminhoAplicacao, "API.xml");
+            //    string caminhoAplicacao = PlatformServices.Default.Application.ApplicationBasePath;
+            //    string nomeAplicacao = PlatformServices.Default.Application.ApplicationName;
+            //    string caminhoXmlDoc = Path.Combine(caminhoAplicacao, "API.xml");
 
-                c.IncludeXmlComments(caminhoXmlDoc);
-            });
+            //    c.IncludeXmlComments(caminhoXmlDoc);
+            //});
         }
     }
 }

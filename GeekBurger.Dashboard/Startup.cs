@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace GeekBurger.Dashboard
 {
@@ -48,28 +49,29 @@ namespace GeekBurger.Dashboard
             app.UseMvc();
 
             //salesContext.Seed();
+
             //Swagger
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1",
-                    new Info
-                    {
-                        Title = "Dashboard data",
-                        Version = "v1",
-                        Description = "Pega os dados pra fazer as paradas",
-                        Contact = new Contact
-                        {
-                            Name = "Renatinho vrau vrau",
-                            Url = "https://github.com/RenatoNovelli"
-                        }
-                    });
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1",
+            //        new Info
+            //        {
+            //            Title = "Dashboard data",
+            //            Version = "v1",
+            //            Description = "Pega os dados pra fazer as paradas",
+            //            Contact = new Contact
+            //            {
+            //                Name = "Renatinho vrau vrau",
+            //                Url = "https://github.com/RenatoNovelli"
+            //            }
+            //        });
 
-                string caminhoAplicacao = PlatformServices.Default.Application.ApplicationBasePath;
-                string nomeAplicacao = PlatformServices.Default.Application.ApplicationName;
-                string caminhoXmlDoc = Path.Combine(caminhoAplicacao, "API.xml");
+            //    string caminhoAplicacao = PlatformServices.Default.Application.ApplicationBasePath;
+            //    string nomeAplicacao = PlatformServices.Default.Application.ApplicationName;
+            //    string caminhoXmlDoc = Path.Combine(caminhoAplicacao, "API.xml");
 
-                c.IncludeXmlComments(caminhoXmlDoc);
-            });
+            //    c.IncludeXmlComments(caminhoXmlDoc);
+            //});
         }
     }
 }
