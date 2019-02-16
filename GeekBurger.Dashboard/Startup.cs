@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace GeekBurger.Dashboard
 {
@@ -46,6 +48,28 @@ namespace GeekBurger.Dashboard
             app.UseMvc();
 
             //salesContext.Seed();
+            //Swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                    new Info
+                    {
+                        Title = "Dashboard data",
+                        Version = "v1",
+                        Description = "Pega os dados pra fazer as paradas",
+                        Contact = new Contact
+                        {
+                            Name = "Renatinho vrau vrau",
+                            Url = "https://github.com/RenatoNovelli"
+                        }
+                    });
+
+                string caminhoAplicacao = PlatformServices.Default.Application.ApplicationBasePath;
+                string nomeAplicacao = PlatformServices.Default.Application.ApplicationName;
+                string caminhoXmlDoc = Path.Combine(caminhoAplicacao, "API.xml");
+
+                c.IncludeXmlComments(caminhoXmlDoc);
+            });
         }
     }
 }
