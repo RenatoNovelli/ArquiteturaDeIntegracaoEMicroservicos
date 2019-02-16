@@ -20,7 +20,10 @@ namespace GeekBurger.Dashboard.Controllers
 
             _sales = new List<ConsolidatedSales> {
                 new ConsolidatedSales { StoredId = Guid.NewGuid(), Total = 1000, Value = 59385 },
-                new ConsolidatedSales { StoredId = Guid.NewGuid(), Total = 1320, Value = 72278 }
+                new ConsolidatedSales { StoredId = Guid.NewGuid(), Total = 1320, Value = 72278 },
+                new ConsolidatedSales { StoredId = Guid.NewGuid(), Total = 1120, Value = 65278 },
+                new ConsolidatedSales { StoredId = Guid.NewGuid(), Total = 1330, Value = 22548 },
+                new ConsolidatedSales { StoredId = Guid.NewGuid(), Total = 1457, Value = 88728 }
             };
 
             _usersRestrictions = new List<UserRestrictions> {
@@ -29,7 +32,6 @@ namespace GeekBurger.Dashboard.Controllers
             };
         }
 
-        //test
         [HttpGet("sales")]
         public IActionResult GetSales([FromQuery] Interval? per, [FromQuery] int? value)
         {
