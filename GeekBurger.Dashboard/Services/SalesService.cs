@@ -16,6 +16,12 @@ namespace GeekBurger.Dashboard.Service
         {
             _salesRepository = salesRepository;
         }
+
+        public bool SaveSale()
+        {
+            return _salesRepository.Add(new Sales());
+        }
+
         public ConsolidatedSales GetSales(Interval per, int value)
         {
             var consolidatedSales = new ConsolidatedSales();

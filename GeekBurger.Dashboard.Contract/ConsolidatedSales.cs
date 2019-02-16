@@ -1,8 +1,10 @@
-﻿namespace GeekBurger.Dashboard.Contract
+﻿using System;
+
+namespace GeekBurger.Dashboard.Contract
 {
     public class ConsolidatedSales
     {
-        public int StoredId { get; set; }
+        public Guid StoredId { get; set; }
         public int Total { get; set; }
         public string Value { get; set; }
     }

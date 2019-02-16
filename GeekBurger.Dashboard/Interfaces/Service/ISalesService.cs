@@ -6,5 +6,6 @@ namespace GeekBurger.Dashboard.Interfaces.Service
     public interface ISalesService
     {
         ConsolidatedSales GetSales(Interval per, int value);
+        bool SaveSale();
     }
 }
