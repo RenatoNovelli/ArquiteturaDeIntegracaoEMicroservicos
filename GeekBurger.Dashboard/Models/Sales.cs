@@ -2,7 +2,7 @@
 
 namespace GeekBurger.Dashboard.Model
 {
-    public class Sale
+    public class Sales
     {
         public Guid SaleId { get; set; }
         public int StoreId { get; set; }

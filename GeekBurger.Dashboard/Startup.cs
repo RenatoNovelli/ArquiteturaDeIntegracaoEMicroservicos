@@ -17,7 +17,7 @@ namespace GeekBurger.Dashboard
         {
             var mvcCoreBuilder = services.AddMvcCore();
 
-            services.AddSingleton<Singletao>();
+            //services.AddSingleton<Singletao>();
 
             mvcCoreBuilder
                 .AddFormatterMappings()

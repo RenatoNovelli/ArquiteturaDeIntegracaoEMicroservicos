@@ -15,32 +15,22 @@ namespace GeekBurger.Dashboard.Repository
             _context = context;
         }
 
-        public List<Sale> GetAll()
+        public List<Sales> GetAll()
         {
             return _context.Sales?
                 .ToList();
         }
 
-        public List<Sale> GetByHour(int hour)
+        public List<Sales> GetByInterval(DateTime start, DateTime end)
         {
-            var date = DateTime.Now.Date;
-
-            var start = date.AddHours(hour);
-            var end = start.AddHours(1);
-
             return _context.Sales
                 .Where(x => x.Date >= start && x.Date < end)
                 .ToList();
         }
 
-        public bool Add(Sale sale)
+        public bool Add(Sales sale)
         {
             _context.Sales.Add(sale);
-            return true;
-        }
-
-        public bool Update(Product product)
-        {
             return true;
         }
 

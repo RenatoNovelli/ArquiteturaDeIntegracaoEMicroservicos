@@ -10,6 +10,6 @@ namespace GeekBurger.Dashboard.Repository
         {
         }
 
-        public DbSet<Sale> Sales { get; set; }
+        public DbSet<Sales> Sales { get; set; }
     }
 }

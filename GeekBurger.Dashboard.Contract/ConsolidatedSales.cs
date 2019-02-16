@@ -1,6 +1,6 @@
 ﻿namespace GeekBurger.Dashboard.Contract
 {
-    public class Sales
+    public class ConsolidatedSales
     {
         public int StoredId { get; set; }
         public int Total { get; set; }

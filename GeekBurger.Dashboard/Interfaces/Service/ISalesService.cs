@@ -1,10 +1,10 @@
 ﻿using GeekBurger.Dashboard.Contract;
+using GeekBurger.Dashboard.Models.Enums;
 
 namespace GeekBurger.Dashboard.Interfaces.Service
 {
     public interface ISalesService
     {
-        Sales GetSales();
-        Sales GetSalesByInterval(string per, int value);
+        ConsolidatedSales GetSales(Interval per, int value);
     }
 }
