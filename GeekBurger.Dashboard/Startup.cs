@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using GeekBurger.Dashboard.Interfaces.Repository;
+﻿using GeekBurger.Dashboard.Interfaces.Repository;
 using GeekBurger.Dashboard.Interfaces.Service;
 using GeekBurger.Dashboard.Repository;
 using GeekBurger.Dashboard.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.PlatformAbstractions;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace GeekBurger.Dashboard
 {
@@ -25,8 +16,6 @@ namespace GeekBurger.Dashboard
         public void ConfigureServices(IServiceCollection services)
         {
             var mvcCoreBuilder = services.AddMvcCore();
-
-            services.AddAutoMapper();
 
             services.AddDbContext<SalesContext>(o => o.UseInMemoryDatabase("geekburger-dashboard"));
             services.AddScoped<ISalesRepository, SalesRepository>();

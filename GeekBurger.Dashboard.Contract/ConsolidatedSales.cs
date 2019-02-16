@@ -6,6 +6,6 @@ namespace GeekBurger.Dashboard.Contract
     {
         public Guid StoredId { get; set; }
         public int Total { get; set; }
-        public string Value { get; set; }
+        public decimal Value { get; set; }
     }
 }

@@ -22,15 +22,33 @@ namespace GeekBurger.Dashboard.Service
             return _salesRepository.Add(new Sales());
         }
 
-        public ConsolidatedSales GetSales(Interval per, int value)
+        public IEnumerable<ConsolidatedSales> GetSales(Interval? per, int? value)
         {
-            var consolidatedSales = new ConsolidatedSales();
+            var sales = new List<Sales>();
 
-            var dateRange = SetDateInterval(per, value);
+            if (per.HasValue)
+            {
+                var dateRange = SetDateInterval(per.Value, value.Value);
+                sales = _salesRepository.GetByInterval(dateRange.start, dateRange.end);
+            }
+            else
+            {
+                sales = _salesRepository.GetAll();
+            }
 
-            _salesRepository.GetByInterval(dateRange.start, dateRange.end);
+            return ConsolidateSales(sales);
+        }
 
-            return consolidatedSales;
+        private static IEnumerable<ConsolidatedSales> ConsolidateSales(List<Sales> sales)
+        {
+            return sales
+                .GroupBy(g => g.StoreId)
+                .Select(x => new ConsolidatedSales
+                {
+                    StoredId = x.Key,
+                    Total = x.Count(),
+                    Value = x.Sum(s => s.Price)
+                });
         }
 
         private static (DateTime start, DateTime end) SetDateInterval(Interval per, int value)
@@ -44,7 +62,6 @@ namespace GeekBurger.Dashboard.Service
             switch (per)
             {
                 case Interval.Day:
-
                     dateRange.start = date.AddDays(value);
                     dateRange.end = dateRange.start.AddDays(1);
                     break;

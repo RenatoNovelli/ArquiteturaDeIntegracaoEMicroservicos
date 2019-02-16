@@ -6,10 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using GeekBurger.Dashboard.Interfaces.Service;
 using GeekBurger.Dashboard.ServiceBus;
-using GeekBurger.Products.Contract;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using SubscriptionClient = Microsoft.Azure.ServiceBus.SubscriptionClient;
 
 namespace Topic.Receiver.Sample
@@ -75,11 +73,6 @@ namespace Topic.Receiver.Sample
 
         private Task Handle(Message message, CancellationToken arg2)
         {
-            var userWithLessOffer = new GeekBurger.StoreCatalog.Contract.UserWithLessOfferMessage();
-            var production = new GeekBurger.Production.Contract.ProductionToGet();
-
-            var isSaved = _salesService.SaveSale();
-
             Console.WriteLine($"message Label: {message.Label}");
             Console.WriteLine($"message CorrelationId: {message.CorrelationId}");
             var productChangesString = Encoding.UTF8.GetString(message.Body);

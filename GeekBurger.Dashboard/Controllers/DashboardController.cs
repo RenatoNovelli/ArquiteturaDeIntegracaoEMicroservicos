@@ -19,8 +19,8 @@ namespace GeekBurger.Dashboard.Controllers
             _salesService = salesService;
 
             _sales = new List<ConsolidatedSales> {
-                new ConsolidatedSales { StoredId = Guid.NewGuid(), Total = 1000, Value = "59385.00" },
-                new ConsolidatedSales { StoredId = Guid.NewGuid(), Total = 1320, Value = "72278.00" }
+                new ConsolidatedSales { StoredId = Guid.NewGuid(), Total = 1000, Value = 59385 },
+                new ConsolidatedSales { StoredId = Guid.NewGuid(), Total = 1320, Value = 72278 }
             };
 
             _usersRestrictions = new List<UserRestrictions> {
@@ -31,7 +31,7 @@ namespace GeekBurger.Dashboard.Controllers
 
         //test
         [HttpGet("sales")]
-        public IActionResult GetSales(Interval per, int value)
+        public IActionResult GetSales([FromQuery] Interval? per, [FromQuery] int? value)
         {
             var sales = _salesService.GetSales(per, value);
             return Ok(_sales);
