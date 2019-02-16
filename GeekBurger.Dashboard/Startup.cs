@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using GeekBurger.Dashboard.Interfaces.Repository;
+using GeekBurger.Dashboard.Interfaces.Service;
+using GeekBurger.Dashboard.Repository;
+using GeekBurger.Dashboard.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GeekBurger.Dashboard
@@ -17,7 +23,11 @@ namespace GeekBurger.Dashboard
         {
             var mvcCoreBuilder = services.AddMvcCore();
 
-            //services.AddSingleton<Singletao>();
+            services.AddAutoMapper();
+
+            services.AddDbContext<SalesContext>(o => o.UseInMemoryDatabase("geekburger-dashboard"));
+            services.AddScoped<ISalesRepository, SalesRepository>();
+            services.AddSingleton<ISalesService, SalesService>();
 
             mvcCoreBuilder
                 .AddFormatterMappings()
@@ -26,13 +36,16 @@ namespace GeekBurger.Dashboard
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SalesContext salesContext)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseMvc();
+
+            //salesContext.Seed();
         }
     }
 }
