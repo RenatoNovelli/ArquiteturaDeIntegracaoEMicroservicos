@@ -46,7 +46,7 @@ namespace GeekBurger.Dashboard.Extensions
 
         private static DateTime RandomDay()
         {
-            return DateTime.Today.AddMinutes(gen.Next(86400));
+            return DateTime.Today.AddMinutes(gen.Next(1440));
         }
 
         private static decimal RandomPrice()
