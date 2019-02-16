@@ -6,38 +6,22 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.ajax-cross-origin.min.js"></script>
 <div id="sales" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 <div id="usersWithLessOffer" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 <button id="btnAtualizar">Atualizar</button>
 
-<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
+<input type="button" id="btn" value="Get JSON">
 
 <script>
-
-    var json = [
-        {
-            "StoreId": 1111,
-            "Total": 2213,
-            "Value": 54385.00
-        },        {
-            "StoreId": 2222,
-            "Total": 5466,
-            "Value": 64642.00
-        },        {
-            "StoreId": 3333,
-            "Total": 7919,
-            "Value": 27562
-        },    ];
-
     var lojas = [];
     var pedidos = [];
     var valores = [];
+    var restricoes = [];
 
-    //https://geekburguerdashboard.azurewebsites.net/api/dashboard/usersWithLessOffer
 
     $(document).ready(function () {
-        console.log('evento ')
         $.ajax({
             url: 'https://geekburguerdashboard.azurewebsites.net/api/dashboard/sales',
             method: 'GET',
@@ -49,15 +33,35 @@
                     valores.push(e.value);
                 });
                 salesChart();
-                console.log(lojas, pedidos, valores);
             },
             error(erro) {
 
             }
         });
-        
+
+        $.ajax({
+            url: 'https://geekburguerdashboard.azurewebsites.net/api/dashboard/usersWithLessOffer',
+            method: 'GET',
+            accept: 'application/json',
+            success(response) {
+                response.forEach(function (e) {
+                    restricoes.push({ 'name': e.restrictions, 'y': e.users })
+                });
+                console.log(restricoes);
+                usersWithLessOffer();
+            },
+            error(erro) {
+
+            }
+        });
+
+
+
+
     });
-   
+
+
+
     function salesChart() {
         Highcharts.chart('sales', {
             chart: {
@@ -128,7 +132,59 @@
         });
     }
 
+    function usersWithLessOffer() {
 
+        // Radialize the colors
+        Highcharts.setOptions({
+            colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+                return {
+                    radialGradient: {
+                        cx: 0.5,
+                        cy: 0.3,
+                        r: 0.7
+                    },
+                    stops: [
+                        [0, color],
+                        [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                    ]
+                };
+            })
+        });
+
+        // Build the chart
+        Highcharts.chart('usersWithLessOffer', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Restrições alimentares'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        },
+                        connectorColor: 'silver'
+                    }
+                }
+            },
+            series: [{
+                name: 'Share',
+                data: restricoes
+            }]
+        });
+    };
 
 
 

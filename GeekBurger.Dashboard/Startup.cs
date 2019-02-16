@@ -27,7 +27,10 @@ namespace GeekBurger.Dashboard
                         builder => builder.AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader()
-                        .AllowCredentials());
+                        .AllowCredentials()
+                        .WithOrigins("http://geekburguerdashboardui.azurewebsites.net")
+                        .AllowAnyHeader()
+                        );
                 });
 
             mvcCoreBuilder
