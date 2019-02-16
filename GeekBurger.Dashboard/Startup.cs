@@ -33,6 +33,29 @@ namespace GeekBurger.Dashboard
                 app.UseDeveloperExceptionPage();
             }
             app.UseMvc();
+
+            //Swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                    new Info
+                    {
+                        Title = "Dashboard data",
+                        Version = "v1",
+                        Description = "Pega os dados pra fazer as paradas",
+                        Contact = new Contact
+                        {
+                            Name = "Renatinho vrau vrau",
+                            Url = "https://github.com/RenatoNovelli"
+                        }
+                    });
+
+                string caminhoAplicacao = PlatformServices.Default.Application.ApplicationBasePath;
+                string nomeAplicacao = PlatformServices.Default.Application.ApplicationName;
+                string caminhoXmlDoc = Path.Combine(caminhoAplicacao, "API.xml");
+
+                c.IncludeXmlComments(caminhoXmlDoc);
+            });
         }
     }
 }
