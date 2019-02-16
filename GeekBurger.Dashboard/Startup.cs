@@ -19,7 +19,7 @@ namespace GeekBurger.Dashboard
 
             services.AddDbContext<SalesContext>(o => o.UseInMemoryDatabase("geekburger-dashboard"));
             services.AddScoped<ISalesRepository, SalesRepository>();
-            services.AddSingleton<ISalesService, SalesService>();
+            services.AddTransient<ISalesService, SalesService>();
 
             mvcCoreBuilder
                 .AddFormatterMappings()
