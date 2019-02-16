@@ -8,9 +8,9 @@ namespace GeekBurger.Dashboard.Repository
 {
     public class SalesRepository : ISalesRepository
     {
-        private SalesContext _context;
+        private DashboardContext _context;
 
-        public SalesRepository(SalesContext context)
+        public SalesRepository(DashboardContext context)
         {
             _context = context;
         }

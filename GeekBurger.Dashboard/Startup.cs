@@ -1,4 +1,5 @@
-﻿using GeekBurger.Dashboard.Interfaces.Repository;
+﻿using GeekBurger.Dashboard.Extensions;
+using GeekBurger.Dashboard.Interfaces.Repository;
 using GeekBurger.Dashboard.Interfaces.Service;
 using GeekBurger.Dashboard.Repository;
 using GeekBurger.Dashboard.Service;
@@ -17,18 +18,28 @@ namespace GeekBurger.Dashboard
         {
             var mvcCoreBuilder = services.AddMvcCore();
 
-            services.AddDbContext<SalesContext>(o => o.UseInMemoryDatabase("geekburger-dashboard"));
+            services.AddDbContext<DashboardContext>(o => o.UseInMemoryDatabase("geekburger-dashboard"));
             services.AddScoped<ISalesRepository, SalesRepository>();
             services.AddTransient<ISalesService, SalesService>();
 
             mvcCoreBuilder
                 .AddFormatterMappings()
                 .AddJsonFormatters()
-                .AddCors();
+                .AddCors(options =>
+                 options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                    })
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SalesContext salesContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DashboardContext dashboardContext)
         {
             if (env.IsDevelopment())
             {
@@ -37,8 +48,9 @@ namespace GeekBurger.Dashboard
 
             app.UseMvc();
 
-            //salesContext.Seed();
+            dashboardContext.Seed();
 
+            app.UseCors("AllowAll");
             //Swagger
             //services.AddSwaggerGen(c =>
             //{
