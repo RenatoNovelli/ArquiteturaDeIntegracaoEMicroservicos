@@ -8,14 +8,14 @@ namespace GeekBurger.Dashboard.Model
     public class Order
     {
         public Guid OrderId { get; set; }
-        public int StoreId { get; set; }
+        public Guid StoreId { get; set; }
         public decimal Total { get; set; }
         public List<Product> Products { get; set; }
-        public int[] ProductionIds { get; set; }
+        public Guid[] ProductionIds { get; set; }
     }
 
     public class Product
     {
-        public int ProductId { get; set; }
+        public Guid ProductId { get; set; }
     }
 }

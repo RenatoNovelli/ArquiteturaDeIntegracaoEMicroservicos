@@ -2,6 +2,7 @@
 using GeekBurger.Dashboard.Interfaces.Service;
 using GeekBurger.Dashboard.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace GeekBurger.Dashboard.Controllers
@@ -10,17 +11,22 @@ namespace GeekBurger.Dashboard.Controllers
     public class DashboardController : ControllerBase
     {
         public readonly ISalesService _salesService;
-        public readonly ConsolidatedSales _sales;
+        public readonly List<ConsolidatedSales> _sales;
         public readonly List<UserRestrictions> _usersRestrictions;
 
         public DashboardController(ISalesService salesService)
         {
             _salesService = salesService;
-            _sales = new ConsolidatedSales { StoredId = 1111, Total = 1000, Value = "59385.00" };
-            var userRestriction1 = new UserRestrictions { Restrictions = "soy, dairy, peanut", Users = 2 };
-            var userRestriction2 = new UserRestrictions { Restrictions = "soy, dairy", Users = 1 };
 
-            _usersRestrictions = new List<UserRestrictions> { userRestriction1, userRestriction2 };
+            _sales = new List<ConsolidatedSales> {
+                new ConsolidatedSales { StoredId = Guid.NewGuid(), Total = 1000, Value = "59385.00" },
+                new ConsolidatedSales { StoredId = Guid.NewGuid(), Total = 1320, Value = "72278.00" }
+            };
+
+            _usersRestrictions = new List<UserRestrictions> {
+                new UserRestrictions { Restrictions = "soy, dairy, peanut", UserId = Guid.NewGuid() },
+                new UserRestrictions { Restrictions = "soy, dairy", UserId = Guid.NewGuid() }
+            };
         }
 
         //test
