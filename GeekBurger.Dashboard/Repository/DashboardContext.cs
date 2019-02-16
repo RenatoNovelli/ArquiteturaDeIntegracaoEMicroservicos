@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GeekBurger.Dashboard.Repository
 {
-    public class SalesContext : DbContext
+    public class DashboardContext : DbContext
     {
-        public SalesContext(DbContextOptions<SalesContext> options)
+        public DashboardContext(DbContextOptions<DashboardContext> options)
            : base(options)
         {
         }

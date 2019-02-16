@@ -27,16 +27,16 @@ namespace GeekBurger.Dashboard.Controllers
             };
 
             _usersRestrictions = new List<UserRestrictions> {
-                new UserRestrictions { Restrictions = "soy, dairy, peanut", UserId = Guid.NewGuid() },
-                new UserRestrictions { Restrictions = "soy, dairy", UserId = Guid.NewGuid() }
+                new UserRestrictions { Restrictions = "soy, dairy, peanut", Users = 2 },
+                new UserRestrictions { Restrictions = "soy, dairy", Users = 4 }
             };
         }
 
         [HttpGet("sales")]
         public IActionResult GetSales([FromQuery] Interval? per, [FromQuery] int? value)
         {
-            //var sales = _salesService.GetSales(per, value);
-            return Ok(_sales);
+            var sales = _salesService.GetSales(per, value);
+            return Ok(sales);
         }
 
         [HttpGet("usersWithLessOffer")]
