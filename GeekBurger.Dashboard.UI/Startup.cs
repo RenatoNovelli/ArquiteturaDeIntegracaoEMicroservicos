@@ -45,6 +45,30 @@ namespace GeekBurger.Dashboard.UI
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
+            //Swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                    new Info
+                    {
+                        Title = "Dashboard Charts",
+                        Version = "v1",
+                        Description = "Mostra os gráficos muito loucos",
+                        Contact = new Contact
+                        {
+                            Name = "Joãozinho ui ui",
+                            Url = "https://github.com/Thuragon"
+                        }
+                    });
+
+                string caminhoAplicacao = PlatformServices.Default.Application.ApplicationBasePath;
+                string nomeAplicacao = PlatformServices.Default.Application.ApplicationName;
+                string caminhoXmlDoc = Path.Combine(caminhoAplicacao, "API.xml");
+
+                c.IncludeXmlComments(caminhoXmlDoc);
+            });
         }
     }
 }
