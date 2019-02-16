@@ -9,9 +9,17 @@
 
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
-
+<button>Get Score</button>
 <script>
-
+    $('button').click(function () {
+        $.ajax({
+            url: 'https://geekburguerdashboard.azurewebsites.net/api/dashboard/sales',
+            dataType: 'json',
+            success: function (data) {
+                $('div').html(JSON.stringify(data));
+            }
+        });
+    })
     var json = [
         {
             "StoreId": 1111,
