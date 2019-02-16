@@ -33,7 +33,7 @@ namespace GeekBurger.Dashboard.Controllers
         [HttpGet("sales")]
         public IActionResult GetSales([FromQuery] Interval? per, [FromQuery] int? value)
         {
-            var sales = _salesService.GetSales(per, value);
+            //var sales = _salesService.GetSales(per, value);
             return Ok(_sales);
         }
 

@@ -19,12 +19,23 @@ namespace GeekBurger.Dashboard
 
             services.AddDbContext<SalesContext>(o => o.UseInMemoryDatabase("geekburger-dashboard"));
             services.AddScoped<ISalesRepository, SalesRepository>();
-            services.AddSingleton<ISalesService, SalesService>();
+            services.AddTransient<ISalesService, SalesService>();
 
             mvcCoreBuilder
                 .AddFormatterMappings()
                 .AddJsonFormatters()
-                .AddCors();
+                .AddCors(options =>
+                {
+                    options.AddPolicy("AllowAll",
+                        builder =>
+                        {
+                            builder
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowCredentials();
+                        });
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
