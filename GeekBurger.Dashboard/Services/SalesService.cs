@@ -3,9 +3,11 @@ using GeekBurger.Dashboard.Interfaces.Repository;
 using GeekBurger.Dashboard.Interfaces.Service;
 using GeekBurger.Dashboard.Model;
 using GeekBurger.Dashboard.Models.Enums;
+using GeekBurger.Orders.Contract.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GeekBurger.Dashboard.Service
 {
@@ -17,23 +19,33 @@ namespace GeekBurger.Dashboard.Service
             _salesRepository = salesRepository;
         }
 
-        public bool SaveSale()
+        public async Task SaveSale(OrderChangedMessage order)
         {
-            return _salesRepository.Add(new Sales());
+            if (order.State == Orders.Contract.Enums.OrderState.Paid)
+            {
+                var sales = new Sales
+                {
+                    Date = DateTime.Now,
+                    Price = order.Value,
+                    SaleId = order.OrderId,
+                    StoreId = order.StoreId
+                };
+                await _salesRepository.Add(sales);
+            }
         }
 
-        public IEnumerable<ConsolidatedSales> GetSales(Interval? per, int? value)
+        public async Task<IEnumerable<ConsolidatedSales>> GetSales(Interval? per, int? value)
         {
             var sales = new List<Sales>();
 
             if (per.HasValue)
             {
                 var dateRange = SetDateInterval(per.Value, value.Value);
-                sales = _salesRepository.GetByInterval(dateRange.start, dateRange.end);
+                sales = await _salesRepository.GetByInterval(dateRange.start, dateRange.end);
             }
             else
             {
-                sales = _salesRepository.GetAll();
+                sales = await _salesRepository.GetAll();
             }
 
             return ConsolidateSales(sales);
