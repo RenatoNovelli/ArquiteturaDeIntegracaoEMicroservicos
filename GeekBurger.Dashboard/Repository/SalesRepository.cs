@@ -3,6 +3,7 @@ using GeekBurger.Dashboard.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GeekBurger.Dashboard.Repository
 {
@@ -15,23 +16,21 @@ namespace GeekBurger.Dashboard.Repository
             _context = context;
         }
 
-        public List<Sales> GetAll()
+        public async Task<List<Sales>> GetAll()
         {
             return _context.Sales?
                 .ToList();
         }
 
-        public List<Sales> GetByInterval(DateTime start, DateTime end)
+        public async Task<List<Sales>> GetByInterval(DateTime start, DateTime end)
         {
             return _context.Sales
-                .Where(x => x.Date >= start && x.Date < end)
-                .ToList();
+                .Where(x => x.Date >= start && x.Date < end).ToList();
         }
 
-        public bool Add(Sales sale)
+        public async Task Add(Sales sale)
         {
             _context.Sales.Add(sale);
-            return true;
         }
 
     }
