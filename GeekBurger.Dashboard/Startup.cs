@@ -96,6 +96,8 @@ namespace GeekBurger.Dashboard
                     "Geek Burguer Dashboard");
             });
 
+            app.ApplicationServices.GetService<IReceiveMessagesFactory>();
+
         }
     }
 }
