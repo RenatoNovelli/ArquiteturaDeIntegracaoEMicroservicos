@@ -1,9 +1,9 @@
-﻿using GeekBurger.Dashboard.ServiceBus;
+﻿
+using GeekBurger.Dashboard.ServiceBus;
 using GeekBurger.Orders.Contract.Messages;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -67,12 +67,14 @@ namespace GeekBurger.Dashboard.Services
         {
             var messageString = "";
             if (message.Body != null)
-                messageString = Encoding.UTF8.GetString(message.Body);
+                messageString = Encoding.UTF8.GetString(message.Body);            
 
             //TODO: be more generic
             List<OrderChangedMessage> orderChanged = null;
             if (message.Label == "orderchanged")
                 orderChanged = JsonConvert.DeserializeObject<List<OrderChangedMessage>>(messageString);
+            //if (message.Label == "userwithlessoffer")
+            //    orderChanged = JsonConvert.DeserializeObject<List<GeekBurger.Orders.Contract.Messages.>>(messageString);
 
             return Task.CompletedTask;
         }
