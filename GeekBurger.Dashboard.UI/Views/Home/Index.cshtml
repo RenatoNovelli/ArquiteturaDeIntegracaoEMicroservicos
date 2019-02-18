@@ -1,0 +1,193 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.ajax-cross-origin.min.js"></script>
+<div id="sales" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div id="usersWithLessOffer" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<button id="btnAtualizar">Atualizar</button>
+
+
+<input type="button" id="btn" value="Get JSON">
+
+<script>
+    var lojas = [];
+    var pedidos = [];
+    var valores = [];
+    var restricoes = [];
+
+
+    $(document).ready(function () {
+        $.ajax({
+            url: 'https://geekburguerdashboard.azurewebsites.net/api/dashboard/sales',
+            method: 'GET',
+            accept: 'application/json',
+            success(response) {
+                response.forEach(function (e) {
+                    lojas.push(e.storedId);
+                    pedidos.push(e.total);
+                    valores.push(e.value);
+                });
+                salesChart();
+            },
+            error(erro) {
+
+            }
+        });
+
+        $.ajax({
+            url: 'https://geekburguerdashboard.azurewebsites.net/api/dashboard/usersWithLessOffer',
+            method: 'GET',
+            accept: 'application/json',
+            success(response) {
+                response.forEach(function (e) {
+                    restricoes.push({ 'name': e.restrictions, 'y': e.users })
+                });
+                console.log(restricoes);
+                usersWithLessOffer();
+            },
+            error(erro) {
+
+            }
+        });
+
+
+
+
+    });
+
+
+
+    function salesChart() {
+        Highcharts.chart('sales', {
+            chart: {
+                zoomType: 'xy'
+            },
+            title: {
+                text: 'Vendas por loja'
+            },
+            xAxis: [{
+                categories: lojas,
+                crosshair: true
+            }],
+            yAxis: [{ // Primary yAxis
+                labels: {
+                    format: 'R$ {value}',
+                    style: {
+                        color: Highcharts.getOptions().colors[1]
+                    }
+                },
+                title: {
+                    text: 'Valor',
+                    style: {
+                        color: Highcharts.getOptions().colors[1]
+                    }
+                }
+            }, { // Secondary yAxis
+                title: {
+                    text: 'Pedidos',
+                    style: {
+                        color: Highcharts.getOptions().colors[0]
+                    }
+                },
+                labels: {
+                    format: '{value}',
+                    style: {
+                        color: Highcharts.getOptions().colors[0]
+                    }
+                },
+                opposite: true
+            }],
+            tooltip: {
+                shared: true
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                x: 120,
+                verticalAlign: 'top',
+                y: 100,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || 'rgba(255,255,255,0.25)'
+            },
+            series: [{
+                name: 'Pedidos',
+                type: 'column',
+                yAxis: 1,
+                data: pedidos,
+
+
+            }, {
+                name: 'Valor',
+                type: 'spline',
+                data: valores,
+                tooltip: {
+                    valuePrefix: 'R$ '
+                }
+            }]
+        });
+    }
+
+    function usersWithLessOffer() {
+
+        // Radialize the colors
+        Highcharts.setOptions({
+            colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+                return {
+                    radialGradient: {
+                        cx: 0.5,
+                        cy: 0.3,
+                        r: 0.7
+                    },
+                    stops: [
+                        [0, color],
+                        [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                    ]
+                };
+            })
+        });
+
+        // Build the chart
+        Highcharts.chart('usersWithLessOffer', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Restrições alimentares'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        },
+                        connectorColor: 'silver'
+                    }
+                }
+            },
+            series: [{
+                name: 'Share',
+                data: restricoes
+            }]
+        });
+    };
+
+
+
+
+</script>
+
