@@ -1,5 +1,5 @@
 
-﻿using GeekBurger.Dashboard.Interfaces.Service;
+using GeekBurger.Dashboard.Interfaces.Service;
 using GeekBurger.Dashboard.ServiceBus;
 using GeekBurger.Orders.Contract.Messages;
 using Microsoft.Azure.ServiceBus;
@@ -25,9 +25,9 @@ namespace GeekBurger.Dashboard.Services
         {
             _salesService = salesService;
         }
-        public ReceiveMessagesService(string topic, 
-                                      string subscription, 
-                                      string filterName = null, 
+        public ReceiveMessagesService(string topic,
+                                      string subscription,
+                                      string filterName = null,
                                       string filter = null)
         {
             IConfiguration configuration = new ConfigurationBuilder()
@@ -73,12 +73,12 @@ namespace GeekBurger.Dashboard.Services
         {
             var messageString = "";
             if (message.Body != null)
-                messageString = Encoding.UTF8.GetString(message.Body);            
+                messageString = Encoding.UTF8.GetString(message.Body);
 
             //TODO: be more generic
             OrderChangedMessage orderChanged = null;
             if (message.Label == "orderchanged")
-                orderChanged = JsonConvert.DeserializeObject<List<OrderChangedMessage>>(messageString);
+                orderChanged = JsonConvert.DeserializeObject<OrderChangedMessage>(messageString);
             //if (message.Label == "userwithlessoffer")
             //    orderChanged = JsonConvert.DeserializeObject<List<GeekBurger.Orders.Contract.Messages.>>(messageString);
 

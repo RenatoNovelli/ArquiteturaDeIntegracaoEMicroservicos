@@ -8,40 +8,35 @@ namespace GeekBurger.Dashboard.Extensions
     public static class DashboardContextExtensions
     {
         private static Random gen = new Random();
-
+        private static Guid[] stores = new Guid[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
         public static void Seed(this DashboardContext context)
         {
             context.Sales.RemoveRange(context.Sales);
             context.SaveChanges();
 
-            var storeA = Guid.NewGuid();
-            var storeB = Guid.NewGuid();
-            var storeC = Guid.NewGuid();
-
-            context.Sales.AddRange(new List<Sales> {
-                GenerateSales(storeA),
-                GenerateSales(storeA),
-                GenerateSales(storeB),
-                GenerateSales(storeB),
-                GenerateSales(storeB),
-                GenerateSales(storeC),
-                GenerateSales(storeC),
-                GenerateSales(storeA)
-            });
+            for (var i = 0; i < 10000; i++)
+            {
+                context.Sales.Add(GenerateSales());
+            }
 
             context.SaveChanges();
         }
 
-        private static Sales GenerateSales(Guid store)
+        private static Sales GenerateSales()
         {
             return new Sales
             {
                 Date = RandomDay(),
                 Price = RandomPrice(),
-                ProductId = Guid.NewGuid(),
                 SaleId = Guid.NewGuid(),
-                StoreId = store
+                StoreId = RandomStore()
             };
+        }
+
+        private static Guid RandomStore()
+        {
+            var i = gen.Next(3);
+            return stores[i];
         }
 
         private static DateTime RandomDay()
