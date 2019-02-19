@@ -22,7 +22,7 @@ namespace GeekBurger.Dashboard
             var mvcCoreBuilder = services.AddMvcCore();
 
             services.AddDbContext<DashboardContext>(o => o.UseInMemoryDatabase("geekburger-dashboard"));
-            services.AddScoped<ISalesRepository, SalesRepository>();
+            services.AddScoped<IUserRestrictionRepository, SalesRepository>();
             services.AddTransient<ISalesService, SalesService>();
 
             services.AddMvc();
