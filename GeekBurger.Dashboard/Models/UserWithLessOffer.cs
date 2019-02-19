@@ -8,6 +8,6 @@ namespace GeekBurger.Dashboard.Model
     {
         [Key]      
         public int UsersId { get; set; }
-        public List<string> UserRestrictions { get; set; }
+        public string UserRestrictions { get; set; }
     }
 }

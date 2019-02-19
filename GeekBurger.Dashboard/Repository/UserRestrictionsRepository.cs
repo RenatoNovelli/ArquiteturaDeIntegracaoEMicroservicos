@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 
 namespace GeekBurger.Dashboard.Repository
 {
-    public class UserRestrictionRepository : IUserRestrictionsRepository
+    public class UserRestrictionsRepository : IUserRestrictionsRepository
     {
         private DashboardContext _context;
 
-        public UserRestrictionRepository(DashboardContext context)
+        public UserRestrictionsRepository(DashboardContext context)
         {
             _context = context;
         }
 
-        public async Task<List<UserRestrictions>> GetAll()
+        public async Task<List<UserWithLessOffer>> GetAll()
         {
-            return _context.UserRestrictions?
+            return _context.UserWithLessOffer?
                 .ToList();
         }
 
-        public async Task Add(UserRestrictions userRestriction)
+        public async Task Add(UserWithLessOffer userWithLessOffer)
         {
-            _context.UserRestrictions.Add(userRestriction);
-        }      
+            _context.UserWithLessOffer.Add(userWithLessOffer);
+        }
     }
 }

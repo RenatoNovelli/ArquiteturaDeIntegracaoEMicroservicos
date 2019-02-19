@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GeekBurger.Dashboard.Contract
+﻿namespace GeekBurger.Dashboard.Contract
 {
     public class UserRestrictions
     {

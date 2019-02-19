@@ -12,6 +12,7 @@ namespace GeekBurger.Dashboard.Repository
         }
 
         public DbSet<Sales> Sales { get; set; }
-        public DbSet<UserRestrictions> UserRestrictions { get; set; }
+
+        public DbSet<UserWithLessOffer> UserWithLessOffer { get; set; }
     }
 }

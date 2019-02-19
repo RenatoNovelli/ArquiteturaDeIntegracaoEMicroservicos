@@ -3,6 +3,7 @@ using GeekBurger.Dashboard.Interfaces.Repository;
 using GeekBurger.Dashboard.Interfaces.Service;
 using GeekBurger.Dashboard.Repository;
 using GeekBurger.Dashboard.Service;
+using GeekBurger.Dashboard.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -22,9 +23,15 @@ namespace GeekBurger.Dashboard
             var mvcCoreBuilder = services.AddMvcCore();
 
             services.AddDbContext<DashboardContext>(o => o.UseInMemoryDatabase("geekburger-dashboard"));
-            services.AddScoped<IUserRestrictionRepository, SalesRepository>();
-            services.AddTransient<ISalesService, SalesService>();
 
+            services.AddScoped<IReceiveMessagesFactory, ReceiveMessagesFactory>();
+
+            services.AddScoped<ISalesRepository, SalesRepository>();
+            services.AddScoped<IUserRestrictionsRepository, UserRestrictionsRepository>();
+
+            services.AddScoped<ISalesService, SalesService>();
+            services.AddScoped<IUserRestrictionsService, UserRestrictionsService>();
+            
             services.AddMvc();
 
             services.AddSwaggerGen(c =>
@@ -96,8 +103,7 @@ namespace GeekBurger.Dashboard
                     "Geek Burguer Dashboard");
             });
 
-            app.ApplicationServices.GetService<IReceiveMessagesFactory>();
-
+            app.ApplicationServices.GetService<IReceiveMessagesFactory>();           
         }
     }
 }

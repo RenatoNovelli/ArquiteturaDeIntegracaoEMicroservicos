@@ -8,7 +8,7 @@ namespace GeekBurger.Dashboard.Interfaces.Repository
 {
     public interface IUserRestrictionsRepository
     {
-        Task<List<UserRestrictions>> GetAll();        
-        Task Add(UserRestrictions userRestrictions);
+        Task<List<UserWithLessOffer>> GetAll();        
+        Task Add(UserWithLessOffer userRestrictions);
     }
 }

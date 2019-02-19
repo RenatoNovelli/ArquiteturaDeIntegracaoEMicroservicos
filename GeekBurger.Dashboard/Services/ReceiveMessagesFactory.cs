@@ -1,17 +1,20 @@
-﻿namespace GeekBurger.Dashboard.Services
+﻿using GeekBurger.Dashboard.Interfaces.Service;
+
+namespace GeekBurger.Dashboard.Services
 {
-    public class ReceiveMessagesFactory
+    public class ReceiveMessagesFactory : IReceiveMessagesFactory
     {
-        public ReceiveMessagesFactory()
+        ISalesService _salesService;
+        public ReceiveMessagesFactory(ISalesService salesService)
         {
+            _salesService = salesService;
             //By default, creates this receivemessageservice
-            CreateNew("uicommand", "html");
-            CreateNew("orderpaid", "html", "filter-store", "8048e9ec-80fe-4bad-bc2a-e4f4a75c834e");
+            CreateNew("orderchanged", "Dashboard");
         }
 
         public ReceiveMessagesService CreateNew(string topic, string subscription, string filterName = null, string filter = null)
         {
-            return new ReceiveMessagesService(topic, subscription, filterName, filter);
+            return new ReceiveMessagesService(_salesService, topic, subscription, filterName, filter);
         }
     }
 }

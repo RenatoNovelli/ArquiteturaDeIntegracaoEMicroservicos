@@ -19,22 +19,21 @@ namespace GeekBurger.Dashboard.Services
         private readonly string _topicName;
         private readonly string _subscriptionName;
         private static ServiceBusConfiguration _serviceBusConfiguration;
-        private static ISalesService _salesService;
 
-        public ReceiveMessagesService(ISalesService salesService)
-        {
-            _salesService = salesService;
-        }
-        public ReceiveMessagesService(string topic,
+        private readonly ISalesService _salesService;
+
+        public ReceiveMessagesService(ISalesService salesService,
+                                        string topic,
                                       string subscription,
                                       string filterName = null,
                                       string filter = null)
-        {
+        {        
             IConfiguration configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
 
+            _salesService = salesService;
             _serviceBusConfiguration = configuration.GetSection("serviceBus").Get<ServiceBusConfiguration>();
 
             _topicName = topic;
@@ -43,7 +42,7 @@ namespace GeekBurger.Dashboard.Services
             ReceiveMessages(filterName, filter);
         }
 
-        private void ReceiveMessages(string filterName = null, string filter = null)
+        public void ReceiveMessages(string filterName = null, string filter = null)
         {
             var subscriptionClient = new SubscriptionClient
                 (_serviceBusConfiguration.ConnectionString, _topicName, _subscriptionName);
@@ -69,7 +68,7 @@ namespace GeekBurger.Dashboard.Services
             subscriptionClient.RegisterMessageHandler(Handle, mo);
         }
 
-        private Task Handle(Message message, CancellationToken arg2)
+        public Task Handle(Message message, CancellationToken arg2)
         {
             var messageString = "";
             if (message.Body != null)
@@ -86,10 +85,10 @@ namespace GeekBurger.Dashboard.Services
             return Task.CompletedTask;
         }
 
-        private Task ExceptionHandle(ExceptionReceivedEventArgs arg)
+        public Task ExceptionHandle(ExceptionReceivedEventArgs arg)
         {
             var context = arg.ExceptionReceivedContext;
             return Task.CompletedTask;
-        }
+        }        
     }
 }
