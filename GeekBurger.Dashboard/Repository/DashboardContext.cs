@@ -1,4 +1,5 @@
-﻿using GeekBurger.Dashboard.Model;
+﻿using GeekBurger.Dashboard.Contract;
+using GeekBurger.Dashboard.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace GeekBurger.Dashboard.Repository
@@ -11,5 +12,6 @@ namespace GeekBurger.Dashboard.Repository
         }
 
         public DbSet<Sales> Sales { get; set; }
+        public DbSet<UserRestrictions> UserRestrictions { get; set; }
     }
 }
