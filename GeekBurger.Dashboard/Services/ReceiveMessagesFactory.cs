@@ -4,7 +4,8 @@ namespace GeekBurger.Dashboard.Services
 {
     public class ReceiveMessagesFactory : IReceiveMessagesFactory
     {
-        ISalesService _salesService;
+        private readonly ISalesService _salesService;
+
         public ReceiveMessagesFactory(ISalesService salesService)
         {
             _salesService = salesService;

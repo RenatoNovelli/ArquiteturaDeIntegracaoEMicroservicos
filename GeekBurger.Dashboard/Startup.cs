@@ -20,19 +20,22 @@ namespace GeekBurger.Dashboard
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var mvcCoreBuilder = services.AddMvcCore();
-
-            services.AddDbContext<DashboardContext>(o => o.UseInMemoryDatabase("geekburger-dashboard"));
-
-            services.AddScoped<IReceiveMessagesFactory, ReceiveMessagesFactory>();
-
-            services.AddScoped<ISalesRepository, SalesRepository>();
-            services.AddScoped<IUserRestrictionsRepository, UserRestrictionsRepository>();
-
-            services.AddScoped<ISalesService, SalesService>();
-            services.AddScoped<IUserRestrictionsService, UserRestrictionsService>();
             
-            services.AddMvc();
+
+            //services.AddDbContext<DashboardContext>( o => o.UseInMemoryDatabase("geekburger-dashboard"));
+
+            services.AddSingleton(s => new DashboardContext(new DbContextOptionsBuilder<DashboardContext>().UseInMemoryDatabase("geekburger-dashboard")));
+            services.AddSingleton<IReceiveMessagesFactory, ReceiveMessagesFactory>();
+
+            services.AddSingleton<ISalesRepository, SalesRepository>();
+            services.AddSingleton<IUserRestrictionsRepository, UserRestrictionsRepository>();
+
+            services.AddSingleton<ISalesService, SalesService>();
+            services.AddSingleton<IUserRestrictionsService, UserRestrictionsService>();
+
+            //services.AddSingleton(s => s.GetService<IReceiveMessagesFactory>)
+
+            
 
             services.AddSwaggerGen(c =>
             {
@@ -53,7 +56,7 @@ namespace GeekBurger.Dashboard
 
             services.AddCors(options =>
                 {
-                    options.AddPolicy("CorsPolicy",
+                    options.AddPolicy("AllowAll",
                         builder => builder.AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader()
@@ -63,21 +66,12 @@ namespace GeekBurger.Dashboard
                         );
                 });
 
+            services.AddMvc();
+            var mvcCoreBuilder = services.AddMvcCore();
+
             mvcCoreBuilder
                 .AddFormatterMappings()
-                .AddJsonFormatters()
-                .AddCors(options =>
-                 options.AddPolicy("AllowAll",
-                    builder =>
-                    {
-                        builder
-                        .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials();
-                    })
-                )
-                .AddJsonFormatters(); 
+                .AddJsonFormatters();
 
         }
 
@@ -103,7 +97,7 @@ namespace GeekBurger.Dashboard
                     "Geek Burguer Dashboard");
             });
 
-            app.ApplicationServices.GetService<IReceiveMessagesFactory>();           
+            app.ApplicationServices.CreateScope().ServiceProvider.GetService<IReceiveMessagesFactory>();
         }
     }
 }

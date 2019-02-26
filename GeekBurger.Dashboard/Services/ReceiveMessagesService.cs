@@ -1,11 +1,9 @@
-
 using GeekBurger.Dashboard.Interfaces.Service;
 using GeekBurger.Dashboard.ServiceBus;
 using GeekBurger.Orders.Contract.Messages;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,12 +20,13 @@ namespace GeekBurger.Dashboard.Services
 
         private readonly ISalesService _salesService;
 
-        public ReceiveMessagesService(ISalesService salesService,
-                                        string topic,
+        public ReceiveMessagesService(
+                                      ISalesService salesService,
+                                      string topic,
                                       string subscription,
                                       string filterName = null,
                                       string filter = null)
-        {        
+        {
             IConfiguration configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
@@ -89,6 +88,6 @@ namespace GeekBurger.Dashboard.Services
         {
             var context = arg.ExceptionReceivedContext;
             return Task.CompletedTask;
-        }        
+        }
     }
 }
