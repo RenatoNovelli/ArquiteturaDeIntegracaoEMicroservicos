@@ -7,7 +7,7 @@ namespace GeekBurger.Dashboard.Model
     public class UserWithLessOffer
     {
         [Key]      
-        public int UsersId { get; set; }
+        public Guid UserId { get; set; }
         public string UserRestrictions { get; set; }
     }
 }

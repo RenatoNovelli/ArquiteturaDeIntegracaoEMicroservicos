@@ -12,17 +12,27 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
 using System.IO;
 
+using Microsoft.Extensions.Configuration;
+
 namespace GeekBurger.Dashboard
 {
     public class Startup
     {
+
+        public static string ConnectionString { get; private set; }
+
+        public IConfiguration Configuration { get; }
+        public Startup(IHostingEnvironment hostingEnvironment)
+        {
+            Configuration = new ConfigurationBuilder().SetBasePath(hostingEnvironment.ContentRootPath).AddJsonFile("appSettings.json").Build();
+        }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             var mvcCoreBuilder = services.AddMvcCore();
 
-            services.AddDbContext<DashboardContext>(o => o.UseInMemoryDatabase("geekburger-dashboard"));
+            services.AddDbContext<DashboardContext>(o => o.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddScoped<IReceiveMessagesFactory, ReceiveMessagesFactory>();
 
@@ -88,10 +98,10 @@ namespace GeekBurger.Dashboard
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseMvc();
 
-            dashboardContext.Seed();
+            //dashboardContext.Seed();
 
             app.UseCors("AllowAll");
 
@@ -103,7 +113,7 @@ namespace GeekBurger.Dashboard
                     "Geek Burguer Dashboard");
             });
 
-            app.ApplicationServices.GetService<IReceiveMessagesFactory>();           
+            //app.ApplicationServices.GetService<IReceiveMessagesFactory>();           
         }
     }
 }

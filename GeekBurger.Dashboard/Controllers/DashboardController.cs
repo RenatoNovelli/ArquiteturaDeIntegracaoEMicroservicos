@@ -11,29 +11,30 @@ namespace GeekBurger.Dashboard.Controllers
     public class DashboardController : ControllerBase
     {
         public readonly ISalesService _salesService;
-        public readonly List<UserRestrictions> _usersRestrictions;
+        public readonly IUserRestrictionsService _usersRestrictionsService;
 
-        public DashboardController(ISalesService salesService)
+        public DashboardController(ISalesService salesService, IUserRestrictionsService userRestrictionsService)
         {
             _salesService = salesService;
-
-            _usersRestrictions = new List<UserRestrictions> {
-                new UserRestrictions { Restrictions = "soy, dairy, peanut", Users = 2 },
-                new UserRestrictions { Restrictions = "soy, dairy", Users = 4 }
-            };
+            _usersRestrictionsService = userRestrictionsService;
+            //_usersRestrictions = new List<UserRestrictions> {
+            //    new UserRestrictions { Restrictions = "soy, dairy, peanut", Users = 2 },
+            //    new UserRestrictions { Restrictions = "soy, dairy", Users = 4 }
+            //};
         }
 
         [HttpGet("sales")]
         public IActionResult GetSales([FromQuery] Interval? per, [FromQuery] int? value)
         {
-            var sales = _salesService.GetSales(per, value);
+            var sales = _salesService.GetSales(per, value).Result;
             return Ok(sales);
         }
 
         [HttpGet("usersWithLessOffer")]
         public IActionResult GetUsersWithLessOffer()
         {
-            return Ok(_usersRestrictions);
+            var usersRestrictions = _usersRestrictionsService.ConsolidateUserRestrictions();
+            return Ok(usersRestrictions.Result);
         }
     }
 }

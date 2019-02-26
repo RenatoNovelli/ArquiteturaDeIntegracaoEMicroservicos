@@ -8,7 +8,7 @@ namespace GeekBurger.Dashboard.Interfaces.Service
 {
     public interface IUserRestrictionsService
     {
-        Task<IEnumerable<UserRestrictions>> ConsolidateUserRestrictions(List<UserRestrictions> userRestrictions);
+        Task<IEnumerable<UserRestrictions>> ConsolidateUserRestrictions();
         Task SaveUserRestriction(UserRestrictions order);
     }
 }

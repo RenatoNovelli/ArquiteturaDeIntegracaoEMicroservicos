@@ -32,10 +32,11 @@ namespace GeekBurger.Dashboard.Service
             await _userRestrictionRepository.Add(userWithLessOffer);
         }
 
-        private async Task<IEnumerable<UserRestrictions>> ConsolidateUserRestrictions(List<UserRestrictions> userRestrictions)
+        public async Task<IEnumerable<UserRestrictions>> ConsolidateUserRestrictions()
         {
+            var userRestrictions = await _userRestrictionRepository.GetAll();
             return userRestrictions
-                .GroupBy(g => g.Restrictions)
+                .GroupBy(g => g.UserRestrictions)
                 .Select(g => new UserRestrictions()
                 {
                     Restrictions = g.Key,
@@ -43,10 +44,6 @@ namespace GeekBurger.Dashboard.Service
                 })
                 .OrderByDescending(g => g.Users);
         }
-
-        Task<IEnumerable<UserRestrictions>> IUserRestrictionsService.ConsolidateUserRestrictions(List<UserRestrictions> userRestrictions)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
