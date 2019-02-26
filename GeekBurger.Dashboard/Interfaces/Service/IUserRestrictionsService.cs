@@ -1,6 +1,6 @@
 ﻿using GeekBurger.Dashboard.Contract;
 using GeekBurger.Dashboard.Models.Enums;
-using GeekBurger.Orders.Contract.Messages;
+using GeekBurger.Orders.Contract;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using GeekBurger.Dashboard.Contract;
 using GeekBurger.Dashboard.Interfaces.Repository;
 using GeekBurger.Dashboard.Interfaces.Service;
 using GeekBurger.Dashboard.Model;
-using GeekBurger.Dashboard.Repository;
-using GeekBurger.Orders.Contract.Messages;
-using Microsoft.Azure.ServiceBus;
 
 namespace GeekBurger.Dashboard.Service
 {

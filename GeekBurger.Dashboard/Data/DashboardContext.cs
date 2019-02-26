@@ -7,8 +7,11 @@ namespace GeekBurger.Dashboard.Repository
 {
     public class DashboardContext : DbContext
     {
-        public DashboardContext(DbContextOptions<DashboardContext> options)
-           : base(options)
+        public DashboardContext()
+        {
+        }
+        public DashboardContext(DbContextOptionsBuilder<DashboardContext> options)
+           : base(options.Options)
         {
         }
 

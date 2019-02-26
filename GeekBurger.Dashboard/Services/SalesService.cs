@@ -23,16 +23,21 @@ namespace GeekBurger.Dashboard.Service
         {
             if (order.State == Orders.Contract.Enums.OrderState.Paid)
             {
-                var sales = new Sales
+                var sale = new Sales
                 {
                     Date = DateTime.Now,
                     Price = order.Value,
                     SaleId = order.OrderId,
                     StoreId = order.StoreId
                 };
-                await _salesRepository.Add(sales);
+
+                using (var context = new Repository.DashboardContext())
+                {
+                    await context.Sales.AddAsync(sale);
+                }
             }
         }
+
 
         public async Task<IEnumerable<ConsolidatedSales>> GetSales(Interval? per, int? value)
         {
