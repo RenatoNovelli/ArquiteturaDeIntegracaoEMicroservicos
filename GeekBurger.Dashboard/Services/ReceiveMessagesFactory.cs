@@ -10,7 +10,7 @@ namespace GeekBurger.Dashboard.Services
         {
             _salesService = salesService;
             //By default, creates this receivemessageservice
-            CreateNew("orderchanged", "Dashboard");
+            CreateNew("orderchanged", "Los_Angeles_Pasadena_store");
         }
 
         public ReceiveMessagesService CreateNew(string topic, string subscription, string filterName = null, string filter = null)

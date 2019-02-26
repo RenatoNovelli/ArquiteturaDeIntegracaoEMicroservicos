@@ -30,11 +30,12 @@ namespace GeekBurger.Dashboard
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
 
             //services.AddDbContext<DashboardContext>( o => o.UseInMemoryDatabase("geekburger-dashboard"));
 
-            services.AddSingleton(s => new DashboardContext(new DbContextOptionsBuilder<DashboardContext>().UseInMemoryDatabase("geekburger-dashboard")));
+            var connectionString = Configuration["ConnectionStrings:DefaultConnection"];
+            services.AddSingleton(s => new DashboardContext(new DbContextOptionsBuilder<DashboardContext>().UseSqlServer(connectionString)));
             services.AddSingleton<IReceiveMessagesFactory, ReceiveMessagesFactory>();
 
             services.AddSingleton<ISalesRepository, SalesRepository>();
@@ -42,10 +43,6 @@ namespace GeekBurger.Dashboard
 
             services.AddSingleton<ISalesService, SalesService>();
             services.AddSingleton<IUserRestrictionsService, UserRestrictionsService>();
-
-            //services.AddSingleton(s => s.GetService<IReceiveMessagesFactory>)
-
-            
 
             services.AddSwaggerGen(c =>
             {

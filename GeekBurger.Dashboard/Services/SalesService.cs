@@ -31,10 +31,7 @@ namespace GeekBurger.Dashboard.Service
                     StoreId = order.StoreId
                 };
 
-                using (var context = new Repository.DashboardContext())
-                {
-                    await context.Sales.AddAsync(sale);
-                }
+                var x  = _salesRepository.Add(sale);
             }
         }
 

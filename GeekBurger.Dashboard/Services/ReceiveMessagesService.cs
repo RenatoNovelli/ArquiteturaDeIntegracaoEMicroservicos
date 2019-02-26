@@ -73,14 +73,10 @@ namespace GeekBurger.Dashboard.Services
             if (message.Body != null)
                 messageString = Encoding.UTF8.GetString(message.Body);
 
-            //TODO: be more generic
-            OrderChangedMessage orderChanged = null;
-            if (message.Label == "orderchanged")
-                orderChanged = JsonConvert.DeserializeObject<OrderChangedMessage>(messageString);
-            //if (message.Label == "userwithlessoffer")
-            //    orderChanged = JsonConvert.DeserializeObject<List<GeekBurger.Orders.Contract.Messages.>>(messageString);
+            var orderChanged = JsonConvert.DeserializeObject<OrderChangedMessage>(messageString);
 
             _salesService.SaveSale(orderChanged);
+            
             return Task.CompletedTask;
         }
 

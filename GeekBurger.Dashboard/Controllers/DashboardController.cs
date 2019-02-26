@@ -1,9 +1,6 @@
-﻿using GeekBurger.Dashboard.Contract;
-using GeekBurger.Dashboard.Interfaces.Service;
+﻿using GeekBurger.Dashboard.Interfaces.Service;
 using GeekBurger.Dashboard.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 
 namespace GeekBurger.Dashboard.Controllers
 {

@@ -31,6 +31,7 @@ namespace GeekBurger.Dashboard.Repository
         public async Task Add(Sales sale)
         {
             _context.Sales.Add(sale);
+            _context.SaveChanges();
         }
 
     }
